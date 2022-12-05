@@ -9,21 +9,26 @@
 
 #include "usart_driver/usart_driver.h"
 #include "xmem_driver/xmem_driver.h"
+#include "adc_driver/adc_driver.h"
 
 #include <util/delay.h>
 
 int main(void) {
 	usart_init(MYUBRR);
+	xmem_init();
+	adc_init();
+
 	sei();
 	fdevopen(put, get);
 	
-	xmem_init();
-	
 	//SRAM_test();
+
+	adc_calibrate();
 	
 	while (1) {
-		xmem_write(0, 0x00);
-		_delay_ms(10);
+		uint8_t values[4];
+		adc_read(values);
+		printf("x: %d y: %d l: %d r: %d\r\n", values[0], values[1], values[2], values[3]);
 	}
 }
 
