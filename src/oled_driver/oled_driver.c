@@ -36,15 +36,15 @@ void oled_write_command(char data) {
 }
 
 void oled_goto_column(uint8_t column) {
-	uint8_t setLowerColumn = column&(0b00001111);
+	uint8_t setLowerColumn = column & 0b00001111;
 	oled_write_command(setLowerColumn);
 	
-	uint8_t setHigherColumn = (1 << 4) + (column>>4);
+	uint8_t setHigherColumn = (1 << 4) + (column >> 4);
 	oled_write_command(setHigherColumn);
 }
 
 void oled_goto_line(uint8_t line) {
-	uint8_t setPageStart = 0xB0 + line;
+	uint8_t setPageStart = 0xb0 + line;
 	oled_write_command(setPageStart);
 }
 

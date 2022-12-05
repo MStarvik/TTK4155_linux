@@ -13,53 +13,36 @@
 #include "oled_driver/oled_driver.h"
 #include "oled_buffer/oled_buffer.h"
 #include "user_interface/user_interface.h"
+#include "menu/menu.h"
+#include "spi_driver/spi_driver.h"
+#include "mcp2515_driver/mcp2515_driver.h"
+#include "can_driver/can_driver.h"
 
 #include <util/delay.h>
 
 int main(void) {
+	fdevopen(put, get);
+
 	usart_init(MYUBRR);
 	xmem_init();
 	adc_init();
 	oled_init();
+	// menu_init();
+	mcp2515_init();
+	can_init();
 
 	sei();
-	fdevopen(put, get);
-	
-	//SRAM_test();
 
 	adc_calibrate();
 	oled_reset();
-
-	UserInterface* UI = UI_create();
-	Node* first = Node_create("first", NULL);
-	Node* second = Node_create("second", NULL);
-	Node* third = Node_create("third", NULL);
-	
-	Node_addChild(UI->root, first);
-	Node_addChild(UI->root, second);
-	Node_addChild(UI->root, third);
-	
-	UI->selected = first;
 	
 	while (1) {
-		static int16_t prev_y = -1;
-
 		uint8_t values[4];
 		adc_read(values);
-		printf("x: %d y: %d l: %d r: %d\r\n", values[0], values[1], values[2], values[3]);
 		uint8_t x = values[0];
 		uint8_t y = values[1];
-		if(y == 255 && prev_y != 255) {
-			UI_prev(UI);
-			printf("prev\r\n");
-		} else if (y == 0 && prev_y != 0) {
-			UI_next(UI);
-			printf("next\r\n");
-		} 
-		prev_y = y;
 		
-		oled_reset();
-		UI_draw(UI);
+		uint8_t response = mcp2515_read(MCP_CANSTAT);
 	}
 }
 

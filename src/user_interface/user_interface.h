@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 typedef struct Node Node;
 
 struct Node{
@@ -27,3 +29,4 @@ void UI_next(UserInterface* UI);
 void UI_prev(UserInterface* UI);
 void UI_enter(UserInterface* UI);
 void UI_draw(UserInterface* UI);
+void UI_update(UserInterface* UI, uint8_t x, uint8_t y);

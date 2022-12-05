@@ -1,5 +1,5 @@
 # List all source files to be compiled; separate with space
-SOURCE_FILES := src/main.c src/usart_driver/usart_driver.c src/xmem_driver/xmem_driver.c src/adc_driver/adc_driver.c src/oled_driver/oled_driver.c src/oled_buffer/oled_buffer.c src/user_interface/user_interface.c src/fonts/fonts.c
+SOURCE_FILES := src/main.c src/usart_driver/usart_driver.c src/xmem_driver/xmem_driver.c src/adc_driver/adc_driver.c src/oled_driver/oled_driver.c src/oled_buffer/oled_buffer.c src/user_interface/user_interface.c src/fonts/fonts.c src/spi_driver/spi_driver.c src/mcp2515_driver/mcp2515_driver.c src/can_driver/can_driver.c
 
 # Set this flag to "yes" (no quotes) to use JTAG; otherwise ISP (SPI) is used
 PROGRAM_WITH_JTAG := yes
